@@ -3,7 +3,8 @@
 *WIP, doesn't work*
 
 Can be used by putting something like this into pubspec.yaml:
-```dependencies:
+```
+dependencies:
   exitlive_transformers:
   git: git@github.com:exitlive/transformers.git
 dependency_overrides:
@@ -13,5 +14,6 @@ transformers:
 - exitlive_transformers:
     entry_points: web/index.html
     config_path: path/to/config
-    config_key: browser_configuration_settings```
+    config_key: browser_configuration_settings
+```
 
