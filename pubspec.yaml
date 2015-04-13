@@ -1,0 +1,11 @@
+name: exitlive_transformers
+description: Browser Config Transformer
+environment:
+  sdk: '>=1.8.3 <2.0.0'
+dependencies:
+  barback: any
+  logging: any
+  mock: any
+dev_dependencies:
+    unittest: any
+
