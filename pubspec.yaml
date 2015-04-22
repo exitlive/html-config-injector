@@ -3,9 +3,10 @@ description: Browser Config Transformer
 environment:
   sdk: '>=1.8.3 <2.0.0'
 dependencies:
-  barback: any
   logging: any
-  mock: any
+  barback: any
+  dart_config: any
 dev_dependencies:
-    unittest: any
+  unittest: any
+  mock: any
 
