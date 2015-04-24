@@ -2,43 +2,40 @@
 
 *WIP, doesn't work*
 
-Can be used by putting something like this into pubspec.yaml:
+*Example `pubspec.yaml`*
 ```
 dependencies:
+  [...]
   exitlive_transformers:
-  git: git@github.com:exitlive/transformers.git
+      git: git@github.com:exitlive/transformers.git
 dependency_overrides:
+    [...]
     exitlive_transformers:
         path: ../transformers/
 transformers:
+[...]
 - exitlive_transformers:
     entry_points: web/index.html
     config_path: config/default.config.yaml
     config_key: browser_configuration_settings
+    placeholder_regex: r"BrowserConfig"
 ```
-Then when you do `pub build`, you get output like this:
-```
-entry_points: web/index.html
-config_path: config/default.config.yaml
-config_key: browser_configuration_settings
-```
-from code like this:
-```
-print('entry_points: ${config['entry_points']}');
-print('config_path: ${config['config_path']}');
-print('config_key: ${config['config_key']}');
-```
-Then if you have something like `BrowserConfig` inside your `web/index.html`,
-say, it will be replaced in the built version (`build/web/index.html`). In this
-proof-of-concept version, it will be replaced by the value of `entry_points`.
+*Explanation of configuration variables*
 
-Additionally, keys and values under the `browser_configuration_settings` in the
-file specified in `config_path` can be retreived and are currently printed
-(for proof-of-concept). To achieve this, put something like:
-```
-browser_configuration_settings:
-    hello: world
-```
-in `config/default.config.yaml` of the lib that imports the transformer.
+`entry_points`: Which files to transform (matches path name endings).
+`config_path`: Path of file with the configurations to be embedded into html.
+`config_key`: The key under which the aforementioned configurations are located
+(currently ignored, uses `browser_configuration_settings`).
 
-This is as far as I've come so far. :)
+`placeholder_regex`: Regex used to find configuration placeholders to replace
+in the transformation (currently ignored, uses `u"BrowserConfig"`).
+
+*Functionality*
+
+On building, the placeholder in your template, f.ex. `BrowserConfig` is
+replaced by f.ex. `<input type="hidden" name="hello" value="world" >` in the
+built version.
+
+*Known bugs*
+
+Many, but it works, provided one uses the same values as in the example. :)
