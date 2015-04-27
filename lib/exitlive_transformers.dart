@@ -48,12 +48,9 @@ class BrowserConfigTransformer extends Transformer {
       var id = transform.primaryInput.id;
 
       // Create a regex to match the tag in the html to be transformed.
-      RegExp configTag = new RegExp(r"BrowserConfig");
-      // TODO: Fix this.
-      // print(config['placeholder_regex']);
-      // RegExp configTag = new RegExp(config['placeholder_regex']);
+      RegExp configTag = new RegExp(transformerConfiguration['placeholder_regex']);
+      // Make the transformation.
       String contentTransformed = content.replaceAll(configTag, configHtml);
-      // TODO: Remove prints.
       transform.addOutput(new Asset.fromString(id, contentTransformed));
     });
   }
