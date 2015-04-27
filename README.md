@@ -1,8 +1,44 @@
 # transformers
 
-*WIP, doesn't work*
+*Transforms html to add configuration data as hidden input fields*
 
-*Example `pubspec.yaml`*
+## Usage
+
+### 1. Create file with browser configuration settings
+
+The path of the yaml file with the browser configuration you want to be embed
+can be anywhere in the project. The only restriction is that all configuration
+settings have to be second level key/value pairs under a single top level
+entry.
+
+#### Example configuration file with browser configurations
+
+`config/default.config.yaml`
+```
+# Something unrelated
+forward_build_to_vagrant: true
+
+# to-be embedded configs
+browser_configuration_settings:
+    hello: world
+```
+
+### 2. Configure the transformer in your `pubspec.yaml`
+
+The transformer takes (and needs) the following four (4) configuration
+parameters:
+
+1. `entry_points`: Which files to transform (matches path name endings).
+
+2. `config_path`: Path of file with the browser configurations to be embedded
+into html.
+
+3. `config_key`: The key under which the aforementioned configs are located.
+
+4. `placeholder_regex`: Regex used to find configuration placeholders to replace
+in the transformation.
+
+#### Example `pubspec.yaml`
 ```
 dependencies:
   [...]
@@ -18,23 +54,51 @@ transformers:
     entry_points: web/index.html
     config_path: config/default.config.yaml
     config_key: browser_configuration_settings
-    placeholder_regex: r"BrowserConfig"
+    placeholder_regex: BrowserConfig
 ```
-*Explanation of configuration variables*
 
-`entry_points`: Which files to transform (matches path name endings).
-`config_path`: Path of file with the configurations to be embedded into html.
-`config_key`: The key under which the aforementioned configs are located.
+### 3. Modify html
 
-`placeholder_regex`: Regex used to find configuration placeholders to replace
-in the transformation (currently ignored, uses `u"BrowserConfig"`).
+Place the placeholder regex you have defined earlier into your html.
 
-*Functionality*
+#### Example html template
 
-On building, the placeholder in your template, f.ex. `BrowserConfig` is
-replaced by f.ex. `<input type="hidden" name="hello" value="world" >` in the
-built version.
+Continuing with the example above, our placeholder is `BrowserConfig`:
 
-*Known bugs*
+```
+<!DOCTYPE html>
 
-Many, but it works, provided one uses the same values as in the example. :)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+
+<title>Exit Live Dashboard</title>
+
+
+<link rel="import" href="packages/debug_grid/debug_grid.html">
+<link rel="import" href="packages/exitlive_dashboard/polymer/root_app.html">
+
+
+<script type="application/dart" src="script/app.dart"></script>
+<script src="packages/browser/dart.js"></script>
+
+<link rel="stylesheet" href="packages/exitlive_dashboard/css/general.css">
+
+<root-app></root-app>
+BrowserConfig
+<!-- <debug-grid showLines></debug-grid> -->
+```
+
+### 4. Build
+
+Run `pub build` on your application.
+
+### Verify results
+
+If everything worked, the transformed files will be in the `build` directory.
+
+## Known bugs
+
+None at the moment.
