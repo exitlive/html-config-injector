@@ -37,8 +37,7 @@ class BrowserConfigTransformer extends Transformer {
     return transform.primaryInput.readAsString().then((content) async {
       // Get config variables to transform into page
       await loadConfig(config['config_path']).then((Map config2) {
-        // TODO: Remove hardcoding.
-        config2['browser_configuration_settings'].forEach((key, value) {
+        config2[config['config_key']].forEach((key, value) {
           // Adds each key/value pair from the config as a (hopefully) valid html field.
           configHtml += prefix + key + separator + value + postfix;
         });

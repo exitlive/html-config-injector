@@ -24,8 +24,7 @@ transformers:
 
 `entry_points`: Which files to transform (matches path name endings).
 `config_path`: Path of file with the configurations to be embedded into html.
-`config_key`: The key under which the aforementioned configurations are located
-(currently ignored, uses `browser_configuration_settings`).
+`config_key`: The key under which the aforementioned configs are located.
 
 `placeholder_regex`: Regex used to find configuration placeholders to replace
 in the transformation (currently ignored, uses `u"BrowserConfig"`).
