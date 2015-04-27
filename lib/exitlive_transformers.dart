@@ -9,7 +9,7 @@ import 'package:dart_config/default_server.dart';
 var log = new Logger('BrowserConfigTransformer');
 
 /// Adds config information to an html page using hidden input fields.
-/// Warning: Use html-safe keys and values to not trash your page.
+/// Warning: Use safe keys and values to not trash the tag and your page.
 class BrowserConfigTransformer extends Transformer {
   // These three strings make up the hidden input field, in that it is formed as follows:
   // prefix + key + separator + value + postfix, ie.
@@ -19,10 +19,11 @@ class BrowserConfigTransformer extends Transformer {
   final String separator = '" value="';
   final String postfix = '">';
 
-  Map<String, String> config;
+  // This is the configuration with which the transformer was called (from remote pubspec).
+  Map<String, String> transformerConfiguration;
   String configHtml = '';
 
-  BrowserConfigTransformer(this.config);
+  BrowserConfigTransformer(this.transformerConfiguration);
 
   BrowserConfigTransformer.asPlugin(BarbackSettings settings) : this(_parseSettings(settings));
 
@@ -30,15 +31,15 @@ class BrowserConfigTransformer extends Transformer {
     // TODO: Enable logging.
     log.warning('hit000000000000000000000000000000000000000000000000000000');
     // TODO: Using endsWith to determine entry points - find out whether this makes sense.
-    return new Future.value(id.path.endsWith(config['entry_points']));
+    return new Future.value(id.path.endsWith(transformerConfiguration['entry_points']));
   }
 
   Future apply(Transform transform) {
     return transform.primaryInput.readAsString().then((content) async {
-      // Get config variables to transform into page
-      await loadConfig(config['config_path']).then((Map config2) {
-        config2[config['config_key']].forEach((key, value) {
-          // Adds each key/value pair from the config as a (hopefully) valid html field.
+      // Load the browser configuration from the path specified in the transformer configuration.
+      await loadConfig(transformerConfiguration['config_path']).then((Map browserConfiguration) {
+        browserConfiguration[transformerConfiguration['config_key']].forEach((key, value) {
+          // Adds each key/value pair from the config as an html tag.
           configHtml += prefix + key + separator + value + postfix;
         });
         // TODO: Change to log.
@@ -46,6 +47,7 @@ class BrowserConfigTransformer extends Transformer {
 
       var id = transform.primaryInput.id;
 
+      // Create a regex to match the tag in the html to be transformed.
       RegExp configTag = new RegExp(r"BrowserConfig");
       // TODO: Fix this.
       // print(config['placeholder_regex']);
