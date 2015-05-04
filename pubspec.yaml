@@ -1,7 +1,7 @@
 name: exitlive_transformers
 description: Browser Config Transformer
 environment:
-  sdk: '>=1.8.3 <2.0.0'
+  sdk: '>=1.9.0 <2.0.0'
 dependencies:
   logging: any
   barback: any
