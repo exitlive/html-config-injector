@@ -28,8 +28,6 @@ class BrowserConfigTransformer extends Transformer {
   BrowserConfigTransformer.asPlugin(BarbackSettings settings) : this(_parseSettings(settings));
 
   Future<bool> isPrimary(AssetId id) {
-    // TODO: Enable logging.
-    log.warning('hit000000000000000000000000000000000000000000000000000000');
     // TODO: Using endsWith to determine entry points - find out whether this makes sense.
     return new Future.value(id.path.endsWith(transformerConfiguration['entry_points']));
   }
