@@ -1,12 +1,14 @@
 library dashboard.transformer;
 
 import 'dart:async';
+import 'dart:convert';
 import 'package:barback/barback.dart';
 import 'package:logging/logging.dart';
 import 'package:dart_config/default_server.dart';
 
 
 var log = new Logger('BrowserConfigTransformer');
+const htmlSanitizer = const HtmlEscape();
 
 /// Adds config information to an html page using hidden input fields.
 /// Warning: Use safe keys and values to not trash the tag and your page.
@@ -14,7 +16,7 @@ class BrowserConfigTransformer extends Transformer {
   // These three strings make up the hidden input field, in that it is formed as follows:
   // prefix + key + separator + value + postfix, ie.
   // <input type="hidden" name="[key]" value="[value]">
-  // There is no input sanitation of any kind.
+  // Inputs are html-sanitized: 'abc"def' -> 'abc&quot;def' and so on. Be mindful of this.
   final String prefix = '<input type="hidden" name="';
   final String separator = '" value="';
   final String postfix = '">';
@@ -38,6 +40,8 @@ class BrowserConfigTransformer extends Transformer {
       await loadConfig(transformerConfiguration['config_path']).then((Map browserConfiguration) {
         browserConfiguration[transformerConfiguration['config_key']].forEach((key, value) {
           // Adds each key/value pair from the config as an html tag.
+          key = htmlSanitizer.convert(key);
+          value = htmlSanitizer.convert(value);
           configHtml += prefix + key + separator + value + postfix;
         });
         // TODO: Change to log.
