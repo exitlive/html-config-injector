@@ -36,24 +36,29 @@ class BrowserConfigTransformer extends Transformer {
 
   Future apply(Transform transform) {
     return transform.primaryInput.readAsString().then((content) async {
-      // Load the browser configuration from the path specified in the transformer configuration.
-      await loadConfig(transformerConfiguration['config_path']).then((Map browserConfiguration) {
+      try {
+        // Load the file with the browser configuration from the path specified in the transformer configuration.
+        var browserConfiguration = await loadConfig(transformerConfiguration['config_path']);
+        // Load the browser configuration key-value pairs from under the designated key.
         browserConfiguration[transformerConfiguration['config_key']].forEach((key, value) {
-          // Adds each key/value pair from the config as an html tag.
+          // Sanitize for html.
           key = htmlSanitizer.convert(key);
           value = htmlSanitizer.convert(value);
+          // Add each key-value pair from the config as an html tag.
           configHtml += prefix + key + separator + value + postfix;
         });
-        // TODO: Change to log.
-      }, onError: (error) => print(error));
 
-      var id = transform.primaryInput.id;
+        var id = transform.primaryInput.id;
 
-      // Create a regex to match the tag in the html to be transformed.
-      RegExp configTag = new RegExp(transformerConfiguration['placeholder_regex']);
-      // Make the transformation.
-      String contentTransformed = content.replaceAll(configTag, configHtml);
-      transform.addOutput(new Asset.fromString(id, contentTransformed));
+        // Create a regex to match the tag in the html to be transformed.
+        RegExp configTag = new RegExp(transformerConfiguration['placeholder_regex']);
+        // Make the transformation.
+        String contentTransformed = content.replaceAll(configTag, configHtml);
+        transform.addOutput(new Asset.fromString(id, contentTransformed));
+      }
+      catch (e) {
+        print(e);
+      }
     });
   }
 }
