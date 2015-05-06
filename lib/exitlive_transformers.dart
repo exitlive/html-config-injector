@@ -49,14 +49,21 @@ class BrowserConfigTransformer extends Transformer {
         });
 
         var id = transform.primaryInput.id;
+        var configTag;
 
-        // Create a regex to match the tag in the html to be transformed.
-        RegExp configTag = new RegExp(transformerConfiguration['placeholder_regex']);
+        if (transformerConfiguration['regex'] == null || transformerConfiguration['regex'] == true) {
+          // Create a regex to match the tag in the html to be transformed.
+          configTag = new RegExp(transformerConfiguration['placeholder']);
+        }
+        else if (transformerConfiguration['regex'] == false) {
+          configTag = transformerConfiguration['placeholder'];
+        } else {
+          throw('Unknown \"regex\" option (use \"true\" for regex replace, \"false\" for string replace).');
+        }
         // Make the transformation.
         String contentTransformed = content.replaceAll(configTag, configHtml);
         transform.addOutput(new Asset.fromString(id, contentTransformed));
-      }
-      catch (e) {
+      } catch (e) {
         print(e);
       }
     });

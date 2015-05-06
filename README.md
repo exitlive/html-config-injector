@@ -35,8 +35,10 @@ into html.
 
 3. `config_key`: The key under which the aforementioned configs are located.
 
-4. `placeholder_regex`: Regex used to find configuration placeholders to replace
+4. `placeholder`: Regex used to find configuration placeholders to replace
 in the transformation.
+
+4. `regex`: Whether to use regex or not (default: true).
 
 #### Example `pubspec.yaml`
 ```
@@ -54,7 +56,8 @@ transformers:
     entry_points: web/index.html
     config_path: config/default.config.yaml
     config_key: browser_configuration_settings
-    placeholder_regex: BrowserConfig
+    placeholder: BrowserConfig
+    regex: false
 ```
 
 ### 3. Modify html
