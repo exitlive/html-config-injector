@@ -61,7 +61,7 @@ class BrowserConfigTransformer extends Transformer {
           throw('Unknown \"regex\" option (use \"true\" for regex replace, \"false\" for string replace).');
         }
         // Make the transformation.
-        String contentTransformed = content.replaceAll(configTag, configHtml);
+        String contentTransformed = content.replaceFirst(configTag, configHtml);
         transform.addOutput(new Asset.fromString(id, contentTransformed));
       } catch (e) {
         print(e);
