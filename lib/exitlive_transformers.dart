@@ -20,15 +20,14 @@ class BrowserConfigTransformer extends Transformer {
 
   // This is the configuration with which the transformer was called (from remote pubspec).
   Map<String, String> transformerConfiguration;
-  String configHtml = '';
 
   BrowserConfigTransformer(this.transformerConfiguration);
 
   BrowserConfigTransformer.asPlugin(BarbackSettings settings) : this(_parseSettings(settings));
 
   Future<bool> isPrimary(AssetId id) {
-    // TODO: Using endsWith to determine entry points - find out whether this makes sense.
-    return new Future.value(id.path.endsWith(transformerConfiguration['entry_points']));
+    if (transformerConfiguration['entry_points'].contains(id.path)) return new Future.value(true);
+    return new Future.value(false);
   }
 
   Future apply(Transform transform) {
@@ -36,13 +35,18 @@ class BrowserConfigTransformer extends Transformer {
       try {
         // Load the file with the browser configuration from the path specified in the transformer configuration.
         var browserConfiguration = await loadConfig(transformerConfiguration['config_path']);
+
+        String configHtml = '';
+
         // Load the browser configuration key-value pairs from under the designated key.
         browserConfiguration[transformerConfiguration['config_key']].forEach((key, value) {
           // Sanitize (each, as per above) key and value for html.
           key = htmlSanitizer.convert(key);
           value = htmlSanitizer.convert(value);
+
           RegExp splitter = new RegExp(r"\{\{(key|value)\}\}");
           List<String> split = configHtmlTemplate.split(splitter);
+
           // Add each key-value pair from the config as an html tag into the template string specified earlier.
           configHtml += split[0] + key + split[1] + value + split[2];
         });
@@ -62,6 +66,7 @@ class BrowserConfigTransformer extends Transformer {
           throw('Unknown regex option \"${transformerConfiguration['regex']}\"'
               + '(use true for regex replace, false for string replace).');
         }
+
         // Make the transformation.
         String contentTransformed = content.replaceFirst(configTag, configHtml);
         transform.addOutput(new Asset.fromString(id, contentTransformed));
@@ -75,7 +80,18 @@ class BrowserConfigTransformer extends Transformer {
 
 Map<String, String> _parseSettings(BarbackSettings settings) {
   var args = settings.configuration;
-  // return _readEntrypoints(args['entry_points']);
+
+  // Create a list from a potentially single entry point.
+  List<String> entryPoints = _readEntrypoints(args['entry_points']);
+
+  // Remove the potentially non-list entry point.
+  args.remove('entry_points');
+
+  // Create a dictionary with the entry points.
+  Map<String, List> entryPointMap = {'entry_points': entryPoints};
+
+  // Add entry points back to argument list.
+  args.addAll(entryPointMap);
   return args;
 }
 

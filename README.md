@@ -25,20 +25,21 @@ browser_configuration_settings:
 
 ### 2. Configure the transformer in your `pubspec.yaml`
 
-The transformer takes (and needs) the following four (4) configuration
-parameters:
+The transformer takes the following five (5) configuration parameters, the
+first four (4) of which are required:
 
-1. `entry_points`: Which files to transform (matches path name endings).
+1. `entry_points`: Which files to transform (required, takes a yaml list).
 
 2. `config_path`: Path of file with the browser configurations to be embedded
-into html.
+into html (required).
 
-3. `config_key`: The key under which the aforementioned configs are located.
+3. `config_key`: The key under which the aforementioned configs are located
+(required).
 
 4. `placeholder`: Regex used to find configuration placeholders to replace
-in the transformation.
+in the transformation (required).
 
-4. `regex`: Whether to use regex or not (default: true).
+5. `regex`: Whether to use regex or not (optional, default: true).
 
 #### Example `pubspec.yaml`
 ```
@@ -53,7 +54,9 @@ dependency_overrides:
 transformers:
 [...]
 - exitlive_transformers:
-    entry_points: web/index.html
+    entry_points:
+        - web/index.html
+        - web/other.html
     config_path: config/default.config.yaml
     config_key: browser_configuration_settings
     placeholder: BrowserConfig
