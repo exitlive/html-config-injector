@@ -13,13 +13,10 @@ const htmlSanitizer = const HtmlEscape();
 /// Adds config information to an html page using hidden input fields.
 /// Warning: Use safe keys and values to not trash the tag and your page.
 class BrowserConfigTransformer extends Transformer {
-  // These three strings make up the hidden input field, in that it is formed as follows:
-  // prefix + key + separator + value + postfix, ie.
-  // <input type="hidden" name="[key]" value="[value]">
-  // Inputs are html-sanitized: 'abc"def' -> 'abc&quot;def' and so on. Be mindful of this.
-  final String prefix = '<input type="hidden" name="';
-  final String separator = '" value="';
-  final String postfix = '">';
+  // A template of the html tag into which the keys and values are inserted make up the hidden input field.
+  // Inputs are html-sanitized: 'abc"def' -> 'abc&quot;def' and so on. Be mindful of this when parsing the values.
+  // The "{{key}}" and "{{value}}" are matched when replacing. Be mindful of this if altering the template string.
+  final String configHtmlTemplate = '<input type="hidden" name="{{key}}" value="{{value}}">';
 
   // This is the configuration with which the transformer was called (from remote pubspec).
   Map<String, String> transformerConfiguration;
@@ -41,14 +38,17 @@ class BrowserConfigTransformer extends Transformer {
         var browserConfiguration = await loadConfig(transformerConfiguration['config_path']);
         // Load the browser configuration key-value pairs from under the designated key.
         browserConfiguration[transformerConfiguration['config_key']].forEach((key, value) {
-          // Sanitize for html.
+          // Sanitize (each, as per above) key and value for html.
           key = htmlSanitizer.convert(key);
           value = htmlSanitizer.convert(value);
-          // Add each key-value pair from the config as an html tag.
-          configHtml += prefix + key + separator + value + postfix;
+          RegExp splitter = new RegExp(r"\{\{(key|value)\}\}");
+          List<String> split = configHtmlTemplate.split(splitter);
+          // Add each key-value pair from the config as an html tag into the template string specified earlier.
+          configHtml += split[0] + key + split[1] + value + split[2];
         });
 
         var id = transform.primaryInput.id;
+        // String or regex, as per transformer 'regex' setting.
         var configTag;
 
         if (transformerConfiguration['regex'] == null || transformerConfiguration['regex'] == true) {
@@ -58,7 +58,9 @@ class BrowserConfigTransformer extends Transformer {
         else if (transformerConfiguration['regex'] == false) {
           configTag = transformerConfiguration['placeholder'];
         } else {
-          throw('Unknown \"regex\" option (use \"true\" for regex replace, \"false\" for string replace).');
+          // This error causes the transformation to be skipped to prevent user error, and is caught/displayed.
+          throw('Unknown regex option \"${transformerConfiguration['regex']}\"'
+              + '(use true for regex replace, false for string replace).');
         }
         // Make the transformation.
         String contentTransformed = content.replaceFirst(configTag, configHtml);
