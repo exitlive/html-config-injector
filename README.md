@@ -101,9 +101,20 @@ BrowserConfig
 
 Run `pub build` on your application.
 
-### Verify results
+### Example results
 
 If everything worked, the transformed files will be in the `build` directory.
+Continuing with the example above:
+
+`build/web/index.html`
+
+```
+[...]
+<link rel="stylesheet" href="packages/exitlive_dashboard/css/general.css"><root-app></root-app>
+<input type="hidden" name="hello" value="world">
+<!-- <debug-grid showLines></debug-grid> -->
+<script src="index.html_bootstrap.dart.js" async=""></script></body></html>
+```
 
 ## Known bugs
 
