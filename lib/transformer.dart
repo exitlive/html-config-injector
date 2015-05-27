@@ -44,11 +44,10 @@ class BrowserConfigTransformer extends Transformer {
           key = htmlSanitizer.convert(key);
           value = htmlSanitizer.convert(value);
 
-          RegExp splitter = new RegExp(r"\{\{(key|value)\}\}");
-          List<String> split = configHtmlTemplate.split(splitter);
-
           // Add each key-value pair from the config as an html tag into the template string specified earlier.
-          configHtml += split[0] + key + split[1] + value + split[2];
+          configHtml += configHtmlTemplate
+            .replaceFirst('{{key}}', key)
+            .replaceFirst('{{value}}', value);
         });
 
         var id = transform.primaryInput.id;
