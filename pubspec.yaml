@@ -3,10 +3,6 @@ description: Html Config Injector Transformer
 environment:
   sdk: '>=1.9.0 <2.0.0'
 dependencies:
-  logging: any
-  barback: any
-  dart_config: any
-dev_dependencies:
-  unittest: any
-  mock: any
+  barback: ^0.15.2
+  dart_config: ^0.5.0
 
