@@ -45,15 +45,11 @@ in the transformation (required).
 ```
 dependencies:
   [...]
-  exitlive_transformers:
-      git: git@github.com:exitlive/transformers.git
-dependency_overrides:
-    [...]
-    exitlive_transformers:
-        path: ../transformers/
+  html_config_injector:
+      git: git@github.com:exitlive/html-config-injector.git
 transformers:
 [...]
-- exitlive_transformers:
+- html_config_injector:
     entry_points:
         - web/index.html
         - web/other.html
