@@ -45,8 +45,7 @@ in the transformation (required).
 ```
 dependencies:
   [...]
-  html_config_injector:
-      git: git@github.com:exitlive/html-config-injector.git
+  html_config_injector: any
 transformers:
 [...]
 - html_config_injector:
