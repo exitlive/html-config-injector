@@ -66,30 +66,21 @@ Place the placeholder regex you have defined earlier into your html.
 
 Continuing with the example above, our placeholder is `BrowserConfig`:
 
+`web/index.html`
+
 ```
 <!DOCTYPE html>
-
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
-
-<title>Exit Live Dashboard</title>
-
-
-<link rel="import" href="packages/debug_grid/debug_grid.html">
-<link rel="import" href="packages/exitlive_dashboard/polymer/root_app.html">
-
-
-<script type="application/dart" src="script/app.dart"></script>
-<script src="packages/browser/dart.js"></script>
-
-<link rel="stylesheet" href="packages/exitlive_dashboard/css/general.css">
-
-<root-app></root-app>
-BrowserConfig
-<!-- <debug-grid showLines></debug-grid> -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A Website</title>
+    </head>
+    <body>
+        <p>Some content.</p>
+        BrowserConfig
+    </body>
+</html>
 ```
 
 ### 4. Build
@@ -104,11 +95,18 @@ Continuing with the example above:
 `build/web/index.html`
 
 ```
-[...]
-<link rel="stylesheet" href="packages/exitlive_dashboard/css/general.css"><root-app></root-app>
-<input type="hidden" name="hello" value="world">
-<!-- <debug-grid showLines></debug-grid> -->
-<script src="index.html_bootstrap.dart.js" async=""></script></body></html>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>A Website</title>
+    </head>
+    <body>
+        <p>Some content.</p>
+        <input type="hidden" name="hello" value="world">
+    </body>
+</html>
 ```
 
 ## Known bugs
