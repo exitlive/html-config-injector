@@ -39,7 +39,7 @@ into html (required).
 4. `placeholder`: Regex used to find configuration placeholders to replace
 in the transformation (required).
 
-5. `regex`: Whether to use regex or not (optional, default: true).
+5. `regex`: Whether to use regex or not (optional, default: false).
 
 #### Example `pubspec.yaml`
 ```

@@ -54,11 +54,11 @@ class BrowserConfigTransformer extends Transformer {
         // String or regex, as per transformer 'regex' setting.
         var configTag;
 
-        if (transformerConfiguration['regex'] == null || transformerConfiguration['regex'] == true) {
+        if (transformerConfiguration['regex'] == true) {
           // Create a regex to match the tag in the html to be transformed.
           configTag = new RegExp(transformerConfiguration['placeholder']);
         }
-        else if (transformerConfiguration['regex'] == false) {
+        else if (transformerConfiguration['regex'] == null || transformerConfiguration['regex'] == false) {
           configTag = transformerConfiguration['placeholder'];
         } else {
           // This error causes the transformation to be skipped to prevent user error, and is caught/displayed.
