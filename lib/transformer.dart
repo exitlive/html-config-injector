@@ -3,11 +3,9 @@ library dashboard.transformer;
 import 'dart:async';
 import 'dart:convert';
 import 'package:barback/barback.dart';
-import 'package:logging/logging.dart';
 import 'package:dart_config/default_server.dart';
 
 
-var log = new Logger('BrowserConfigTransformer');
 const htmlSanitizer = const HtmlEscape();
 
 /// Adds config information to an html page using hidden input fields.
