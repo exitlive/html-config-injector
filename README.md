@@ -36,8 +36,8 @@ into html (required).
 3. `config_key`: The key under which the aforementioned configs are located
 (required).
 
-4. `placeholder`: Regex used to find configuration placeholders to replace
-in the transformation (required).
+4. `placeholder`: String or regex (see below) used to find configuration
+placeholders to replace in the transformation (required).
 
 5. `regex`: Whether to use regex or not (optional, default: false).
 
