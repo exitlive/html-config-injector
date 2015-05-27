@@ -70,17 +70,11 @@ Continuing with the example above, our placeholder is `BrowserConfig`:
 
 ```
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>A Website</title>
-    </head>
-    <body>
-        <p>Some content.</p>
-        BrowserConfig
-    </body>
-</html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Website</title>
+<p>Some content.</p>
+BrowserConfig
 ```
 
 ### 4. Build
@@ -96,17 +90,11 @@ Continuing with the example above:
 
 ```
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>A Website</title>
-    </head>
-    <body>
-        <p>Some content.</p>
-        <input type="hidden" name="hello" value="world">
-    </body>
-</html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Website</title>
+<p>Some content.</p>
+<input type="hidden" name="hello" value="world">
 ```
 
 ## Known bugs
