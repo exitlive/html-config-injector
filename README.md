@@ -1,4 +1,4 @@
-# transformers
+# Dart HTML Config Injector
 
 *Transforms html to add configuration data as hidden input fields*
 
