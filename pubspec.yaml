@@ -1,5 +1,5 @@
-name: exitlive_transformers
-description: Browser Config Transformer
+name: html_config_injector
+description: Html Config Injector Transformer
 environment:
   sdk: '>=1.9.0 <2.0.0'
 dependencies:
