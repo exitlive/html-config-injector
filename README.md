@@ -36,7 +36,7 @@ into html (required).
 3. `config_key`: The key under which the aforementioned configs are located
 (required).
 
-4. `placeholder`: String or regex (see below) used to find configuration
+4. `matcher`: String or regex (see below) used to find configuration
 placeholders to replace in the transformation (required).
 
 5. `regex`: Whether to use regex or not (optional, default: false).
@@ -54,13 +54,13 @@ transformers:
         - web/other.html
     config_path: config/default.config.yaml
     config_key: browser_configuration_settings
-    placeholder: BrowserConfig
+    matcher: BrowserConfig
     regex: false
 ```
 
 ### 3. Modify html
 
-Place the placeholder regex you have defined earlier into your html.
+Place the placeholder you have defined earlier into your html.
 
 #### Example html template
 
