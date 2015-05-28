@@ -1,0 +1,8 @@
+name: html_config_injector
+description: Html Config Injector Transformer
+environment:
+  sdk: '>=1.9.0 <2.0.0'
+dependencies:
+  barback: ^0.15.2
+  dart_config: ^0.5.0
+
