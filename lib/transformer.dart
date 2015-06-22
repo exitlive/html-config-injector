@@ -1,4 +1,4 @@
-library dashboard.transformer;
+library html_config_injector;
 
 import 'dart:async';
 import 'dart:convert';
